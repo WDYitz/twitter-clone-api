@@ -1,8 +1,9 @@
 import * as testController from "@/http/controllers/test-controller";
 import { signupController } from "@/http/controllers/signup-controller";
 import { Router } from "express";
-import { signinController } from "@/http/controllers/signin-controller";
 import { verifyJWTMiddleware } from "@/http/middlewares/verifyJWT";
+import { signinController } from "@/http/controllers/signin-controller";
+import { getTweetController } from "@/http/controllers/get-tweet-controller";
 import { addTweetController } from "@/http/controllers/add-tweet-controller";
 
 export const router = Router();
@@ -14,7 +15,7 @@ router.post("/auth/signup", signupController);
 router.post("/auth/signin", signinController);
 
 router.post("/tweet", verifyJWTMiddleware, addTweetController);
-// router.get("/tweet/:id");
+router.get("/tweet/:id", verifyJWTMiddleware, getTweetController);
 // router.get("/tweet/:id/answer");
 // router.post("/tweet/:id/like");
 
