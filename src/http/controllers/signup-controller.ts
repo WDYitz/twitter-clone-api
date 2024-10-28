@@ -38,6 +38,6 @@ export const signupController = async (req: Request, res: Response): Promise<any
     }
     return res
       .status(500)
-      .json({ error: "Erro ao criar usuário", message: error });
+      .json({ error: "Erro ao cadastrar usuário", message: error });
   }
 };

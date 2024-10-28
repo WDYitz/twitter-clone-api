@@ -1,5 +1,4 @@
 import { AccessDeniedError } from "@/error_handler/AccessDenied";
-import { EmailAlreadyExistsError } from "@/error_handler/EmailAlreadyExistsError";
 import { UserRepository } from "@/repositories/user-repository";
 import { signinSchema } from "@/schemas/signin-schema";
 import { SigninUseCase } from "@/use-cases/signin-useCase";
