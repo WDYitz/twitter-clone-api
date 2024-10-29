@@ -1,5 +1,6 @@
 import { EmailAlreadyExistsError } from "@/error_handler/EmailAlreadyExistsError";
-import { CreateUserResponseType, UserRepositoryInterface } from "@/repositories/interfaces/user-interface";
+import { UserRepositoryInterface } from "@/repositories/interfaces/user-interface";
+import { CreateUserResponseType } from "@/types/response/create-user-response";
 import { createJWT } from "@/utils/jwt";
 import { hash } from "bcrypt-ts";
 import Slug from "slug";
