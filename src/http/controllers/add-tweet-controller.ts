@@ -4,7 +4,7 @@ import { TweetRepository } from "@/repositories/tweets-repository";
 import { addTweetSchema } from "@/schemas/addTweet-schema";
 import type { ExtendedRequest } from "@/types/request/extended-requests";
 import { AddTweetUseCase } from "@/use-cases/addTweet-useCase";
-import { Request, Response } from "express";
+import { Response } from "express";
 
 export const addTweetController = async (req: ExtendedRequest, res: Response): Promise<any> => {
   try {

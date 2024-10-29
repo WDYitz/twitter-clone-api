@@ -14,12 +14,13 @@ export class AddTweetUseCase {
       const tweet = await this.tweetRepository.findTweet(parseInt(data.answer));
       if (!tweet) {
         throw new TweetDoesNotExistError();
+      } else {
+        tweet.User.avatar = getPublicURL(tweet.User.avatar);
+        return tweet;
       }
-      tweet.User.avatar = getPublicURL(tweet.User.avatar);
-      return tweet;
     }
 
-    const newTweet = await this.tweetRepository.createTweet(data.userSlug, data.body, data.answer ? parseInt(data.answer) : 0);
+    const newTweet = await this.tweetRepository.createTweet(data.userSlug as string, data.body, data.answer ? parseInt(data.answer) : 0);
 
     const hashtags = data.body.match(/#[a-zA-Z0-9_]+/g);
     if (hashtags) {
