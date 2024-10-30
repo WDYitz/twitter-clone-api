@@ -10,7 +10,7 @@ export class AddTweetUseCase {
 
   async execute(data: AddTweetRequestType): Promise<Tweet> {
 
-    if (data.answer) {
+    if (data?.answer) {
       const tweet = await this.tweetRepository.findTweet(parseInt(data.answer));
       if (!tweet) {
         throw new TweetDoesNotExistError();
