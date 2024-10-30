@@ -9,6 +9,7 @@ import { Response } from "express";
 export const addTweetController = async (req: ExtendedRequest, res: Response): Promise<any> => {
   try {
     const safeData = addTweetSchema.safeParse(req.body);
+    const { answer, body } = safeData.data
 
     if (safeData.error) {
       return res.json({ error: safeData.error.flatten().fieldErrors });
@@ -20,8 +21,8 @@ export const addTweetController = async (req: ExtendedRequest, res: Response): P
 
     const data = {
       userSlug: req.userSlug,
-      body: safeData.data.body,
-      answer: safeData.data.answer,
+      body,
+      answer
     };
 
     const newTweet = await addTweetUseCase.execute(data);

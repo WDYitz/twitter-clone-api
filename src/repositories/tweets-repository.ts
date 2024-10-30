@@ -33,7 +33,7 @@ export class TweetRepository implements TweetRepositoryInterface {
       data: {
         body,
         userSlug: slug,
-        answerOf: answer ?? 0
+        answerOf: answer
       }
     })
     return newTweet;
