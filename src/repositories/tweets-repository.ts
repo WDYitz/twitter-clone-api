@@ -5,6 +5,31 @@ import type { GetTweetAnswersResponse } from "@/types/response/get-tweet-answers
 import type { Tweet } from "@prisma/client";
 
 export class TweetRepository implements TweetRepositoryInterface {
+  async unlikeTweet(id: number, slug: string): Promise<void> {
+    await db.tweetLike.deleteMany({
+      where: {
+        userSlug: slug,
+        tweetId: id
+      }
+    })
+  }
+  async likeTweet(id: number, slug: string): Promise<void> {
+    await db.tweetLike.create({
+      data: {
+        userSlug: slug,
+        tweetId: id
+      }
+    })
+  }
+  async checkIfTweetIsLikedByUser(id: number, slug: string): Promise<boolean> {
+    const isLiked = await db.tweetLike.findFirst({
+      where: {
+        userSlug: slug,
+        tweetId: id
+      }
+    })
+    return isLiked ? true : false;
+  }
   async findAnswersFromTweet(id: number): Promise<GetTweetAnswersResponse> {
     const tweets = await db.tweet.findMany({
       include: {
