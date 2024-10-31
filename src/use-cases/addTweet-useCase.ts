@@ -16,6 +16,7 @@ export class AddTweetUseCase {
       if (!tweet) {
         throw new TweetDoesNotExistError();
       }
+      tweet.User.avatar = getPublicURL(tweet.User.avatar);
     }
 
     const newTweet = await this.tweetRepository.createTweet(data.userSlug, data.body, data.answer ? parseInt(data.answer) : 0);
