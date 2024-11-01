@@ -5,8 +5,43 @@ import { UserResponseType } from "@/types/response/user-response";
 import { getPublicURL } from "@/utils/url";
 import { UserRepositoryInterface } from "./interfaces/user-interface";
 import type { FindTweetsByUserResponseType } from "@/types/response/find-tweets-by-user-response";
+import type { Prisma } from "@prisma/client";
 
 export class UserRepository implements UserRepositoryInterface {
+  async updateUserInfo(slug: string, data: Prisma.UserUpdateInput): Promise<void> {
+    await db.user.update({
+      where: {
+        slug
+      },
+      data
+    })
+  }
+  async follow(user1Slug: string, user2Slug: string): Promise<void> {
+    await db.follow.create({
+      data: {
+        user1Slug,
+        user2Slug
+      }
+    })
+  }
+  async unfollow(user1Slug: string, user2Slug: string): Promise<void> {
+    await db.follow.deleteMany({
+      where: {
+        user1Slug,
+        user2Slug
+      }
+    })
+  }
+  async checkIfFollows(user1Slug: string, user2Slug: string): Promise<boolean> {
+    const follows = await db.follow.findFirst({
+      where: {
+        user1Slug,
+        user2Slug
+      }
+    })
+
+    return follows ? true : false
+  }
   async findTweetsByUser(slug: string, currentPage: number, perPage: number): Promise<FindTweetsByUserResponseType> {
     const tweets = await db.tweet.findMany({
       include: {
