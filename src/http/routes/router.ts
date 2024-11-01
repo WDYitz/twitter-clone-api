@@ -10,6 +10,8 @@ import { checkIfTweetIsLikedByUserController } from "@/http/controllers/check-tw
 import { getUserController } from "@/http/controllers/get-user-controller";
 import { getUserTweetsController } from "@/http/controllers/get-user-tweets-controller";
 import { userFollowController } from "@/http/controllers/user-follow-controller";
+import { updateUserController } from "@/http/controllers/update-user-controller";
+import { getFeedController } from "@/http/controllers/get-feed-controller";
 
 export const router = Router();
 
@@ -27,11 +29,11 @@ router.post("/tweet/:id/like", verifyJWTMiddleware, checkIfTweetIsLikedByUserCon
 router.get("/user/:slug", verifyJWTMiddleware, getUserController);
 router.get("/user/:slug/tweets", verifyJWTMiddleware, getUserTweetsController);
 router.post("/user/:slug/follow", verifyJWTMiddleware, userFollowController);
-// router.put("/user");
+router.put("/user", verifyJWTMiddleware, updateUserController);
 // router.put("/user/avatar");
 // router.put("/user/cover");
 
-// router.get("/feed");
+router.get("/feed", verifyJWTMiddleware, getFeedController);
 // router.get("/search");
 // router.get("/trending");
 // router.get("/suggestions");
