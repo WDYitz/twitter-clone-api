@@ -1,13 +1,26 @@
 import { db } from "@/lib/prisma";
 import { CreateUserRequestType } from "@/types/request/create-user-request";
+import type { FindTweetsByUserResponseType } from "@/types/response/find-tweets-by-user-response";
 import { FindUserBySlugResponseType } from "@/types/response/find-user-by-slug-response";
 import { UserResponseType } from "@/types/response/user-response";
+import type { SuggestionsType } from "@/types/SuggestionsType";
 import { getPublicURL } from "@/utils/url";
-import { UserRepositoryInterface } from "./interfaces/user-interface";
-import type { FindTweetsByUserResponseType } from "@/types/response/find-tweets-by-user-response";
 import type { Prisma } from "@prisma/client";
+import { UserRepositoryInterface } from "./interfaces/user-interface";
+
 
 export class UserRepository implements UserRepositoryInterface {
+  async getUserSuggestions(following: string[]): Promise<SuggestionsType[]> {
+    const suggestions: SuggestionsType[] = await db.$queryRaw`
+      SELECT name, avatar, slug 
+      FROM "User"
+      WHERE slug NOT IN (${following.join(',')}) 
+      ORDER BY RANDOM() 
+      LIMIT 5
+    `
+
+    return suggestions;
+  }
   async updateUserInfo(slug: string, data: Prisma.UserUpdateInput): Promise<void> {
     await db.user.update({
       where: {
@@ -104,7 +117,6 @@ export class UserRepository implements UserRepositoryInterface {
 
     return null;
   }
-
   async findUserBySlug(
     slug: string
   ): Promise<FindUserBySlugResponseType | null> {
@@ -144,5 +156,18 @@ export class UserRepository implements UserRepositoryInterface {
         cover: getPublicURL(newUser.cover),
       },
     };
+  }
+  async getUserFollowing(slug: string): Promise<string[]> {
+    const following = [];
+    const reqFollow = await db.follow.findMany({
+      where: { user1Slug: slug },
+      select: { user2Slug: true }
+    });
+
+    for (let reqItem of reqFollow) {
+      following.push(reqItem.user2Slug)
+    }
+
+    return following
   }
 }
