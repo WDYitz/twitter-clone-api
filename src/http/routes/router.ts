@@ -1,17 +1,20 @@
-import * as testController from "@/http/controllers/test-controller";
-import { signupController } from "@/http/controllers/signup-controller";
 import { Router } from "express";
 import { verifyJWTMiddleware } from "@/http/middlewares/verifyJWT";
+import * as testController from "@/http/controllers/test-controller";
+import { signupController } from "@/http/controllers/signup-controller";
 import { signinController } from "@/http/controllers/signin-controller";
-import { getTweetController } from "@/http/controllers/get-tweet-controller";
-import { addTweetController } from "@/http/controllers/add-tweet-controller";
-import { getTweetAnswersController } from "@/http/controllers/get-tweet-answers-controller";
-import { checkIfTweetIsLikedByUserController } from "@/http/controllers/check-tweet-liked-by-user-controller";
 import { getUserController } from "@/http/controllers/get-user-controller";
-import { getUserTweetsController } from "@/http/controllers/get-user-tweets-controller";
 import { userFollowController } from "@/http/controllers/user-follow-controller";
+import { getUserTweetsController } from "@/http/controllers/get-user-tweets-controller";
 import { updateUserController } from "@/http/controllers/update-user-controller";
+import { checkIfTweetIsLikedByUserController } from "@/http/controllers/check-tweet-liked-by-user-controller";
+import { addTweetController } from "@/http/controllers/add-tweet-controller";
+import { getTweetController } from "@/http/controllers/get-tweet-controller";
+import { getTweetAnswersController } from "@/http/controllers/get-tweet-answers-controller";
 import { getFeedController } from "@/http/controllers/get-feed-controller";
+import { getSearchController } from "@/http/controllers/get-search-controller";
+import { getTrendsController } from "@/http/controllers/get-trends-controller";
+import { getSuggestionsController } from "../controllers/get-suggestions-controller";
 
 export const router = Router();
 
@@ -34,6 +37,6 @@ router.put("/user", verifyJWTMiddleware, updateUserController);
 // router.put("/user/cover");
 
 router.get("/feed", verifyJWTMiddleware, getFeedController);
-// router.get("/search");
-// router.get("/trending");
-// router.get("/suggestions");
+router.get("/search", verifyJWTMiddleware, getSearchController);
+router.get("/trending", verifyJWTMiddleware, getTrendsController);
+router.get("/suggestions", verifyJWTMiddleware, getSuggestionsController);
