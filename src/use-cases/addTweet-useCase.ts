@@ -1,4 +1,5 @@
 import { TweetDoesNotExistError } from "@/error_handler/TweetDoesNotExist";
+import type { TrendsRepositoryInterface } from "@/repositories/interfaces/trends-interface";
 import type { TweetRepositoryInterface } from "@/repositories/interfaces/tweets-interface";
 import type { TrendsRepository } from "@/repositories/trends-repository";
 import type { AddTweetRequestType } from "@/types/request/add-tweet-request";
@@ -7,7 +8,7 @@ import { getPublicURL } from "@/utils/url";
 import type { Tweet } from "@prisma/client";
 
 export class AddTweetUseCase {
-  constructor(private tweetRepository: TweetRepositoryInterface, private trendsRepository: TrendsRepository) { }
+  constructor(private tweetRepository: TweetRepositoryInterface, private trendsRepository: TrendsRepositoryInterface) { }
 
   async execute(data: AddTweetRequestType): Promise<Tweet | FindTweetResponseType> {
 
