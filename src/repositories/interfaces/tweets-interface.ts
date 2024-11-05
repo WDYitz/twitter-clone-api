@@ -9,4 +9,6 @@ export interface TweetRepositoryInterface {
   checkIfTweetIsLikedByUser(id: number, slug: string): Promise<boolean>;
   unlikeTweet(id: number, slug: string): Promise<void>;
   likeTweet(id: number, slug: string): Promise<void>;
+  findTweetFeed(following: string[], currentPage: number, perPage: number): Promise<GetTweetAnswersResponse>;
+  findTweetsByBody(bodyContains: string, currentPage: number, perPage: number): Promise<GetTweetAnswersResponse>;
 }

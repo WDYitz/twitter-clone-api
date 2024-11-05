@@ -2,6 +2,7 @@ import { CreateUserRequestType } from "@/types/request/create-user-request";
 import { CreateUserResponseType } from "@/types/response/create-user-response";
 import { FindUserBySlugResponseType } from "@/types/response/find-user-by-slug-response";
 import { UserResponseType } from "@/types/response/user-response";
+import type { SuggestionsType } from "@/types/SuggestionsType";
 import type { Prisma, Tweet } from "@prisma/client";
 
 export interface UserRepositoryInterface {
@@ -16,4 +17,6 @@ export interface UserRepositoryInterface {
   follow(user1Slug: string, user2Slug: string): Promise<void>;
   unfollow(user1Slug: string, user2Slug: string): Promise<void>;
   updateUserInfo(slug: string, data: Prisma.UserUpdateInput): Promise<void>;
+  getUserFollowing(slug: string): Promise<string[]>;
+  getUserSuggestions(following: string[]): Promise<SuggestionsType[]>;
 }
